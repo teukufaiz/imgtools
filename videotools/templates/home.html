@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Upload Video</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+			background-color: #f5f5f5;
+		}
+		h1 {
+			margin: 0;
+			padding: 20px;
+			text-align: center;
+			background-color: #333;
+			color: #fff;
+		}
+		#upload-container {
+			margin: 20px auto;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0 0 10px rgba(0,0,0,0.2);
+			text-align: center;
+		}
+		label {
+			display: block;
+			margin-bottom: 10px;
+			font-weight: bold;
+		}
+		input[type="file"] {
+			display: block;
+			margin: 0 auto 10px;
+		}
+		button[type="submit"] {
+			display: block;
+			margin: 10px auto;
+			padding: 10px 20px;
+			background-color: #333;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		#loading {
+			display: none;
+			margin: 20px auto;
+			padding: 10px;
+			background-color: #333;
+			color: #fff;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+	<h1>Upload Videos (Mp4)</h1>
+
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		<input type="file" name="videos" multiple>
+		<button type="submit">Upload</button>
+	</form>
+
+	<div id="video-list">
+		{% if videos %}
+			{% for video in videos %}
+			<div>
+				<h3>{{ video.name }}</h3>
+				<br>
+				<a href="{% url 'convert_video' video.location %}" class="btn btn-primary">Convert to mp3</a>
+				<a href="{% url 'compress_video' video.location %}" class="btn btn-primary">Compressed</a>
+			</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+
+</body>
+</html>
